@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/shirou/gopsutil/v3/cpu"
-	"github.com/shirou/gopsutil/v3/mem"
-	log "github.com/zhangxiaofeng05/systeminfo"
 	"runtime"
 	"strconv"
 
+	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/host"
+	"github.com/shirou/gopsutil/v3/mem"
+
+	log "github.com/zhangxiaofeng05/systeminfo"
 )
 
 func main() {
