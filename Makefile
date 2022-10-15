@@ -22,3 +22,7 @@ lint:
 ## mod_tidy: go mod tidy
 mod_tidy:
 	go mod tidy
+
+## build: build executable
+build:
+	go build -o $(BIN_DIR)/server -v ./cmd/server
