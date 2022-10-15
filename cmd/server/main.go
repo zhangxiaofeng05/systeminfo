@@ -23,7 +23,7 @@ func main() {
 	// system info
 	r.GET("/system", getSystemInfo)
 
-	r.Run()
+	log.Fatal(r.Run())
 }
 
 func getSystemInfo(c *gin.Context) {
