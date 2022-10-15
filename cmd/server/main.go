@@ -1,56 +1,115 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"net/http"
 	"runtime"
-	"strconv"
 
+	"github.com/gin-gonic/gin"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
-
-	log "github.com/zhangxiaofeng05/systeminfo"
 )
 
 func main() {
-	getSystemInfo()
-	println("------------------")
-	getGoInfo()
+	r := gin.Default()
+
+	// ping
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "pong")
+	})
+
+	// system info
+	r.GET("/system", getSystemInfo)
+
+	r.Run()
 }
 
-func getSystemInfo() {
-	log.Print("操作系统", runtime.GOOS)
-	log.Print("CPU类型", runtime.GOARCH)
-	log.Print("CPU数量", strconv.Itoa(runtime.NumCPU()))
-	is, err := host.Info()
+func getSystemInfo(c *gin.Context) {
+	type params struct {
+		All bool `form:"all" binding:"-"`
+	}
+
+	var p params
+	err := c.ShouldBindQuery(&p)
 	if err != nil {
-		panic(err)
+		log.Printf("params err:%v", err)
+		c.JSON(http.StatusInternalServerError, fmt.Errorf("params err:%v", err).Error())
+		return
 	}
-	log.Print("Hostname", is.Hostname)
-	log.Print("KernelArch", is.KernelArch)
 
-	log.Debugln("host.Info", is.String())
-
-	ci, err := cpu.Info()
-	if err != nil {
-		panic(err)
+	mp := make(map[string]any)
+	if !p.All {
+		mp[c.FullPath()+"?all=true"] = "get all system info"
 	}
-	for i := range ci {
-		log.Print("CPU核数", strconv.Itoa(int(ci[i].Cores)))
-		log.Print("CPU处理器", ci[i].ModelName)
 
-		log.Debugln("cpu.Info", ci[i].String())
-	}
+	mp["golang"] = getGo()
+	mp["host"] = getHost(p.All)
+	mp["cpu"] = getCpu(p.All)
+	mp["memory"] = getMemory(p.All)
+
+	c.JSON(http.StatusOK, mp)
+}
+
+func getMemory(all bool) map[string]any {
+	memMap := make(map[string]any)
 	vm, err := mem.VirtualMemory()
 	if err != nil {
-		panic(err)
+		log.Printf("get memory info err:%v", err)
+		memMap["error"] = fmt.Errorf("get memory info err:%v", err)
+		return memMap
 	}
-	u := vm.Total / 1024 / 1024 / 1024
-	log.Print("总内存(GB)", u)
-	log.Print("内存使用比(%)", vm.UsedPercent)
-	log.Debugln("mem.VirtualMemory", vm.String())
-
+	if all {
+		memMap["all"] = vm
+	} else {
+		u := vm.Total / 1024 / 1024 / 1024
+		memMap["total memory(GB)"] = u
+		memMap["memory usedPercent(%)"] = vm.UsedPercent
+	}
+	return memMap
 }
 
-func getGoInfo() {
-	log.Print("Goroutine数量", strconv.Itoa(runtime.NumGoroutine()))
+func getCpu(all bool) map[string]any {
+	cpuMap := make(map[string]any)
+	ci, err := cpu.Info()
+	if err != nil {
+		log.Printf("get cpu info err:%v", err)
+		cpuMap["error"] = fmt.Errorf("get cpu info err:%v", err)
+		return cpuMap
+	}
+
+	if all || len(ci) != 1 {
+		cpuMap["all"] = ci
+	} else {
+		cpuMap["cpu cores"] = ci[0].Cores
+		cpuMap["cpu modelName"] = ci[0].ModelName
+	}
+	return cpuMap
+}
+
+func getHost(all bool) map[string]any {
+	hostMap := make(map[string]any)
+	is, err := host.Info()
+	if err != nil {
+		log.Printf("get host info err:%v", err)
+		hostMap["error"] = fmt.Errorf("get host info err:%v", err)
+		return hostMap
+	}
+	if all {
+		hostMap["all"] = is
+	} else {
+		hostMap["hostname"] = is.Hostname
+		hostMap["kernelArch"] = is.KernelArch
+	}
+	return hostMap
+}
+
+func getGo() map[string]any {
+	goMap := make(map[string]any)
+	goMap["os"] = runtime.GOOS
+	goMap["arch"] = runtime.GOARCH
+	goMap["cpu num"] = runtime.NumCPU()
+	goMap["goroutine num"] = runtime.NumGoroutine()
+	return goMap
 }
