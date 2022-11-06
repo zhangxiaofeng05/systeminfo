@@ -23,6 +23,8 @@ func main() {
 	// system info
 	r.GET("/system", getSystemInfo)
 
+	log.Println("get system info at http://127.0.0.1:8080/system")
+
 	log.Fatal(r.Run())
 }
 
