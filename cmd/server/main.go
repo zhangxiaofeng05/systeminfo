@@ -1,19 +1,41 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"runtime"
 
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
 )
 
+var (
+	Pprof bool // pprof gin middleware
+)
+
+func init() {
+	flag.BoolVar(&Pprof, "pprof", false, "use pprof gin middleware")
+
+	// customize -h param
+	flag.Usage = func() {
+		fmt.Println("Usage: systeminfo [-h] [-pprof bool]")
+		flag.PrintDefaults()
+	}
+
+	// parse
+	flag.Parse()
+}
+
 func main() {
 	r := gin.Default()
+	if Pprof {
+		pprof.Register(r)
+	}
 
 	// ping
 	r.GET("/ping", func(c *gin.Context) {
