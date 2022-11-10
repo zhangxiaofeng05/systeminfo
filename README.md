@@ -1,5 +1,10 @@
+## system info
+![ci](https://github.com/zhangxiaofeng05/systeminfo/actions/workflows/ci.yml/badge.svg?branch=main)
+![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
+
+a tool for get system info
+
 ## usage
-get system info
 ```shell
 make dev
 ```
@@ -7,7 +12,7 @@ simple: http://localhost:8080/system
 complex: http://localhost:8080/system?all=true  
 
 ## docker
-learn how to write Dockerfile
+local build
 ```shell
 # Building the Image
 docker build -t systeminfo .
@@ -17,4 +22,10 @@ docker run -p 8080:8080 systeminfo:latest
 
 ## dependabot
 
-https://docs.github.com/cn/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+## badge
+1. workflow  
+https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge
+2. shields  
+https://shields.io/
