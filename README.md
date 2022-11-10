@@ -1,6 +1,7 @@
 ## system info
 ![ci](https://github.com/zhangxiaofeng05/systeminfo/actions/workflows/ci.yml/badge.svg?branch=main)
 ![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
+[![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo)
 
 a tool for get system info
 
@@ -29,3 +30,6 @@ https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/c
 https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge
 2. shields  
 https://shields.io/
+3. Codecov  
+https://docs.codecov.com/docs/quick-start  
+
