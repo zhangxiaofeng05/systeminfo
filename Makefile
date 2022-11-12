@@ -11,13 +11,13 @@ dev:
 	go build -o $(BIN_DIR)/server -v ./cmd/server
 	$(BIN_DIR)/server
 
-## clean: clean bin directory
-clean:
-	rm $(BIN_DIR)/*
-
 ## lint: run golangci-lint
 lint:
 	golangci-lint run ./...
+
+## test: run test. view result:$ go tool cover -html=coverage.txt
+test:
+	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
 ## mod_tidy: go mod tidy
 mod_tidy:
@@ -26,3 +26,7 @@ mod_tidy:
 ## build: build executable
 build:
 	go build -o $(BIN_DIR)/server -v ./cmd/server
+
+## clean: clean bin directory
+clean:
+	rm $(BIN_DIR)/*
