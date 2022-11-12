@@ -3,12 +3,13 @@ module github.com/zhangxiaofeng05/systeminfo
 go 1.18
 
 require (
+	github.com/gin-contrib/pprof v1.4.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/shirou/gopsutil/v3 v3.22.10
+	github.com/zhangxiaofeng05/com v0.0.0-20221112094339-da8f4016035b
 )
 
 require (
-	github.com/gin-contrib/pprof v1.4.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect

@@ -16,6 +16,7 @@ import (
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
+	"github.com/zhangxiaofeng05/com/comlog"
 )
 
 var (
@@ -39,6 +40,8 @@ func init() {
 }
 
 func main() {
+	comlog.Init()
+
 	// Create context that listens for the interrupt signal from the OS.
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
