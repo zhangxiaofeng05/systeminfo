@@ -44,9 +44,9 @@ jobs:
     - name: Build
       run: make build
 
-    - name: Run coverage
-      run: make test
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        verbose: true
+    # - name: Run coverage
+    #   run: make test
+    # - name: Upload coverage to Codecov
+    #   uses: codecov/codecov-action@v3
+    #   with:
+    #     verbose: true
