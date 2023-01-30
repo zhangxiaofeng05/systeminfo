@@ -3,10 +3,14 @@
 ![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
 <!-- [![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo) -->
 
-## usage
-```shell
-make dev
+## install
+```bash
+# install
+go install github.com/zhangxiaofeng05/systeminfo@latest
+# run
+systeminfo
 ```
+
 simple: http://localhost:8080/system  
 complex: http://localhost:8080/system?all=true  
 
