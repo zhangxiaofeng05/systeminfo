@@ -6,7 +6,7 @@ require (
 	github.com/gin-contrib/pprof v1.4.0
 	github.com/gin-gonic/gin v1.8.2
 	github.com/shirou/gopsutil/v3 v3.22.12
-	github.com/zhangxiaofeng05/com v0.0.0-20221112094339-da8f4016035b
+	github.com/zhangxiaofeng05/com v0.0.0-20230120160601-193511381bf2
 )
 
 require (

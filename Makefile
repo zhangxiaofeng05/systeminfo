@@ -8,8 +8,8 @@ help: Makefile
 
 ## dev: run server
 dev:
-	go build -o $(BIN_DIR)/server -v ./cmd/server
-	$(BIN_DIR)/server
+	go build -o $(BIN_DIR)/systeminfo -v .
+	$(BIN_DIR)/systeminfo
 
 ## lint: run golangci-lint
 lint:
@@ -25,7 +25,7 @@ mod_tidy:
 
 ## build: build executable
 build:
-	go build -o $(BIN_DIR)/server -v ./cmd/server
+	go build -o $(BIN_DIR)/systeminfo -v .
 
 ## clean: clean bin directory
 clean:

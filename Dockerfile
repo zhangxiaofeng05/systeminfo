@@ -5,7 +5,7 @@ ENV PROJECT_NAME=${PROJECT_NAME}
 COPY . /usr/src/${PROJECT_NAME}
 WORKDIR /usr/src/${PROJECT_NAME}
 ENV GOPROXY=https://proxy.golang.com.cn,direct
-RUN go build -o ./bin/server -v ./cmd/server
+RUN go build -o ./bin/server -v .
 
 FROM golang:${GO_VERSION}-alpine
 ARG PROJECT_NAME=systeminfo
