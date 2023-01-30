@@ -20,7 +20,7 @@ local build
 # Building the Image
 docker build -t systeminfo .
 # run image
-docker run -p 8080:8080 systeminfo:latest
+docker run -d -p 8080:8080 --name systeminfo systeminfo:latest
 ```
 
 ## dependabot
