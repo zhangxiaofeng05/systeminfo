@@ -83,10 +83,6 @@ github.com/ugorji/go/codec v1.2.7 h1:YPXUKf7fYbp/y8xloBqZOw2qaVggbfwMlI8WM3wZUJ0
 github.com/ugorji/go/codec v1.2.7/go.mod h1:WGN1fab3R1fzQlVQTkfxVtIBhWDRqOviHU95kRgeqEY=
 github.com/yusufpapurcu/wmi v1.2.2 h1:KBNDSne4vP5mbSWnJbO+51IMOXJB67QiYCSBrubbPRg=
 github.com/yusufpapurcu/wmi v1.2.2/go.mod h1:SBZ9tNy3G9/m5Oi98Zks0QjeHVDvuK0qfxQmPyzfmi0=
-github.com/zhangxiaofeng05/com v0.0.0-20221112094339-da8f4016035b h1:fIunsdrrWg5hdpIFjtuqE5oDfDWRvU1R0ReCvpJxrRE=
-github.com/zhangxiaofeng05/com v0.0.0-20221112094339-da8f4016035b/go.mod h1:PyAaLlwj3NkoCw34ntitsASfKmbEY/GT3/QKW9x2CJg=
-github.com/zhangxiaofeng05/com v0.0.0-20230120160601-193511381bf2 h1:eMlY5mBO4P51VMunKZ0gkBAhQItJ8RAx1pZjaMqS0Q4=
-github.com/zhangxiaofeng05/com v0.0.0-20230120160601-193511381bf2/go.mod h1:B7SogmMSoJ8yCeDxJHGqnZiDszJhMjAHyGj+HLcbxmM=
 golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3 h1:0es+/5331RGQPcXlMfP+WrnIIS6dNnNRe0WB02W0F4M=
 golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=

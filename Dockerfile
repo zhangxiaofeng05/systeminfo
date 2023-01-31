@@ -1,16 +1,10 @@
-ARG GO_VERSION=1.18
-FROM golang:${GO_VERSION}-alpine AS builder
-ARG PROJECT_NAME=systeminfo
-ENV PROJECT_NAME=${PROJECT_NAME}
-COPY . /usr/src/${PROJECT_NAME}
-WORKDIR /usr/src/${PROJECT_NAME}
-ENV GOPROXY=https://proxy.golang.com.cn,direct
-RUN go build -o ./bin/server -v .
+FROM golang:1.18-alpine AS builder
+COPY . /app
+WORKDIR /app
+# ENV GOPROXY=https://proxy.golang.com.cn,direct
+RUN go build
 
-FROM golang:${GO_VERSION}-alpine
-ARG PROJECT_NAME=systeminfo
-ENV PROJECT_NAME=${PROJECT_NAME}
-WORKDIR /usr/src/${PROJECT_NAME}
-COPY --from=builder /usr/src/${PROJECT_NAME}/bin/server .
+FROM golang:1.18-alpine
+COPY --from=builder /app/systeminfo /
 EXPOSE 8080
-ENTRYPOINT /usr/src/${PROJECT_NAME}/server
+ENTRYPOINT /systeminfo

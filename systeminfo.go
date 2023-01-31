@@ -16,7 +16,6 @@ import (
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
-	"github.com/zhangxiaofeng05/com/comlog"
 )
 
 var (
@@ -40,7 +39,8 @@ func init() {
 }
 
 func main() {
-	comlog.Init()
+	// log init
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
 	// Create context that listens for the interrupt signal from the OS.
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -147,11 +147,13 @@ func getCpu(all bool) map[string]any {
 		return cpuMap
 	}
 
-	if all || len(ci) != 1 {
+	if all {
 		cpuMap["all"] = ci
 	} else {
-		cpuMap["cpu cores"] = ci[0].Cores
-		cpuMap["cpu modelName"] = ci[0].ModelName
+		for i, c := range ci {
+			cpuMap[fmt.Sprintf("index:%d cpu cores", i)] = c.Cores
+			cpuMap[fmt.Sprintf("index:%d cpu modelName", i)] = c.ModelName
+		}
 	}
 	return cpuMap
 }
