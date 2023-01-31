@@ -23,6 +23,9 @@ docker build -t systeminfo .
 docker run -d -p 8080:8080 --name systeminfo systeminfo:latest
 ```
 
+Dockerfile reference: https://docs.docker.com/engine/reference/builder/  
+reference: https://studygolang.com/articles/24854
+
 ## dependabot
 
 https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
