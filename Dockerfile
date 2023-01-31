@@ -4,7 +4,9 @@ WORKDIR /app
 ENV GOPROXY=https://goproxy.cn
 RUN CGO_ENABLED=0 go build -ldflags '-w -s'
 
-FROM alpine:latest
+# FROM alpine:latest # if need cgo, use this
+FROM scratch
 COPY --from=builder /app/systeminfo /
 EXPOSE 8080
-ENTRYPOINT /systeminfo
+# ENTRYPOINT /systeminfo
+CMD [ "/systeminfo" ]
