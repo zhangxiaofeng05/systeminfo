@@ -15,7 +15,7 @@ simple: http://localhost:8080/system
 complex: http://localhost:8080/system?all=true  
 
 ## docker
-local build
+ - docker
 ```shell
 # Building the Image
 docker build -t systeminfo .
@@ -25,6 +25,11 @@ docker run -d -p 8080:8080 --name systeminfo systeminfo:latest
 
 Dockerfile reference: https://docs.docker.com/engine/reference/builder/  
 reference: https://studygolang.com/articles/24854
+
+ - docker-compose
+```
+docker-compose up -d
+```
 
 ## dependabot
 
