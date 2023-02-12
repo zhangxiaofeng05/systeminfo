@@ -4,9 +4,6 @@ name: CI / Docker
 
 on:
   push:
-    branches:
-      - main
-  create:
     tags:
       - 'v*.*.*'
 
