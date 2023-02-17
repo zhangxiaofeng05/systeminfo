@@ -3,7 +3,7 @@
 ![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
 <!-- [![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo) -->
 
-## install
+## go install
 ```bash
 # install
 go install github.com/zhangxiaofeng05/systeminfo@latest
@@ -14,20 +14,19 @@ systeminfo
 simple: http://localhost:8080/system  
 complex: http://localhost:8080/system?all=true  
 
-## docker
- - docker
-```shell
-# Building the Image
-docker build -t systeminfo .
-# run image
-docker run -d -p 8080:8080 --name systeminfo systeminfo:latest
+## container
+### docker
+```
+docker run -d -p 8080:8080 --name systeminfo zhangxiaofeng05/systeminfo:latest
 ```
 
 Dockerfile reference: https://docs.docker.com/engine/reference/builder/  
 reference: https://studygolang.com/articles/24854
 
- - docker-compose
+### docker-compose
 ```
+curl https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/docker-compose.yml
+
 docker-compose up -d
 ```
 
