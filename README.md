@@ -25,7 +25,7 @@ reference: https://studygolang.com/articles/24854
 
 ### docker-compose
 ```
-curl https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/docker-compose.yml
+wget https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/docker-compose.yml
 
 docker-compose up -d
 ```
