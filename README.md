@@ -29,6 +29,11 @@ wget https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/docker-co
 
 docker-compose up -d
 ```
+### k8s
+```
+kubectl apply -f https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/k8s/deployment.yaml
+```
+`attention`: server port is 30000
 
 ## dependabot
 
