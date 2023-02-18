@@ -10,9 +10,7 @@ go install github.com/zhangxiaofeng05/systeminfo@latest
 # run
 systeminfo
 ```
-
-simple: http://localhost:8080/system  
-complex: http://localhost:8080/system?all=true  
+call: http://127.0.0.1:8080
 
 ## container
 ### docker

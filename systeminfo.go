@@ -42,6 +42,8 @@ func main() {
 	// log init
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
+	localHost := "http://127.0.0.1"
+
 	// Create context that listens for the interrupt signal from the OS.
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
@@ -49,9 +51,10 @@ func main() {
 	r := gin.Default()
 	if Pprof {
 		pprof.Register(r)
-		log.Printf("get pprof info at http://127.0.0.1:%d/debug/pprof", Port)
+		log.Printf("get pprof info at %s:%d/debug/pprof", localHost, Port)
 	}
 
+	allUrl := make(map[string]string)
 	// ping
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
@@ -60,7 +63,17 @@ func main() {
 	// system info
 	r.GET("/system", getSystemInfo)
 
-	log.Printf("get system info at http://127.0.0.1:%d/system", Port)
+	allUrl["/ping"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/ping")
+	allUrl["/system"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/system")
+	allUrl["/"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/")
+	// home
+	r.GET("/", func(c *gin.Context) {
+		res := make(map[string]map[string]string)
+		res["all url"] = allUrl
+		c.JSON(http.StatusOK, res)
+	})
+
+	log.Printf("server listening at %s:%d", localHost, Port)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", Port),
