@@ -1,0 +1,43 @@
+# https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/kubernetes-objects/#describing-a-kubernetes-object
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: systeminfo
+spec:
+  selector:
+    matchLabels:
+      app: systeminfo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: systeminfo
+    spec:
+      containers:
+        - name: systeminfo
+          image: zhangxiaofeng05/systeminfo:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: "/ping"
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: "/ping"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: systeminfo
+spec:
+  selector:
+    app: systeminfo
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000 # The range of valid ports is 30000-32767

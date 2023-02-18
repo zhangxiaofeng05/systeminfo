@@ -2,6 +2,7 @@ version: "3"
 
 services:
   systeminfo:
+    # build: .
     image: zhangxiaofeng05/systeminfo:latest
     ports:
       - "8080:8080"
