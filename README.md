@@ -4,6 +4,12 @@
 ![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
 <!-- [![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo) -->
 
+## release
+https://github.com/zhangxiaofeng05/systeminfo/releases
+```
+shasum -a 256 xxx.tar.gz
+```
+
 ## go install
 ```bash
 # install
