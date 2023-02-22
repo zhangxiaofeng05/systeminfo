@@ -28,12 +28,6 @@ func init() {
 	flag.IntVar(&Port, "port", 8080, "server port")
 	flag.BoolVar(&Pprof, "pprof", false, "use pprof gin middleware")
 
-	// customize -h param
-	flag.Usage = func() {
-		fmt.Println("Usage: systeminfo [-h] [-port int] [-pprof bool]")
-		flag.PrintDefaults()
-	}
-
 	// parse
 	flag.Parse()
 }
@@ -59,11 +53,15 @@ func main() {
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
 	})
+	r.GET("/version", func(c *gin.Context) {
+		c.JSON(http.StatusOK, getVersion())
+	})
 
 	// system info
 	r.GET("/system", getSystemInfo)
 
 	allUrl["/ping"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/ping")
+	allUrl["/version"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/version")
 	allUrl["/system"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/system")
 	allUrl["/"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/")
 	// home
@@ -74,6 +72,7 @@ func main() {
 	})
 
 	log.Printf("server listening at %s:%d", localHost, Port)
+	log.Printf("version: %s", getVersion())
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", Port),
