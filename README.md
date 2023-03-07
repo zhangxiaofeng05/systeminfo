@@ -5,7 +5,7 @@
 <!-- [![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo) -->
 
 ## release
-https://github.com/zhangxiaofeng05/systeminfo/releases
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/zhangxiaofeng05/systeminfo)
 ```
 shasum -a 256 xxx.tar.gz
 ```
