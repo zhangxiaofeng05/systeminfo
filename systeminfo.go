@@ -13,6 +13,7 @@ import (
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
@@ -47,6 +48,12 @@ func main() {
 		pprof.Register(r)
 		log.Printf("get pprof info at %s:%d/debug/pprof", localHost, Port)
 	}
+
+	// Register the metrics with the Prometheus collector.
+	prometheus.MustRegister(requests)
+	prometheus.MustRegister(requestDuration)
+
+	r.Use(prometheusMiddleware())
 
 	allUrl := make(map[string]string)
 	// ping
@@ -107,6 +114,17 @@ func main() {
 }
 
 func getSystemInfo(c *gin.Context) {
+	// prometheus
+	// Increment the request counter.
+	requests.Inc()
+
+	// Record the request duration.
+	start := time.Now()
+	defer requestDuration.Observe(time.Since(start).Seconds())
+
+	// Simulate processing time.
+	//time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+
 	type params struct {
 		All bool `form:"all" binding:"-"`
 	}
