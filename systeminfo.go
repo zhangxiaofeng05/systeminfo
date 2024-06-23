@@ -120,7 +120,9 @@ func getSystemInfo(c *gin.Context) {
 
 	// Record the request duration.
 	start := time.Now()
-	defer requestDuration.Observe(time.Since(start).Seconds())
+	defer func() {
+		requestDuration.Observe(time.Since(start).Seconds())
+	}()
 
 	// Simulate processing time.
 	//time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
