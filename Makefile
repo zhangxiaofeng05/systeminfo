@@ -34,7 +34,18 @@ clean:
 ## docker_build: local build image
 docker_build:
 	docker build -t systeminfo .
+	# DOCKER_BUILDKIT=0 docker build -t systeminfo .
 
 ## docker_run: run for local build image
 docker_run:
+	
 	docker run -d -p 8080:8080 --name systeminfo systeminfo:latest
+
+## docker_stop: stop for local build image
+docker_stop:
+	docker stop systeminfo
+
+## docker_rm: remove for local build image
+docker_rm:
+	docker rm systeminfo
+	docker rmi systeminfo
