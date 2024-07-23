@@ -4,7 +4,9 @@ RUN apk add --no-cache git
 COPY . /app
 WORKDIR /app
 ENV GOPROXY=https://goproxy.cn
-RUN CGO_ENABLED=0 go build -ldflags "-w -s -X main.version=$(git describe --tags --always) -X main.commit=$(git rev-parse HEAD)"
+RUN VERSION=$(git describe --tags --always --dirty) && \
+    COMMIT=$(git rev-parse HEAD) && \
+    CGO_ENABLED=0 go build -ldflags "-w -s -X main.version=$VERSION -X main.commit=$COMMIT"
 
 # FROM alpine:latest # if need cgo, use this
 # FROM gcr.io/distroless/static
