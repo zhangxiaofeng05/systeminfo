@@ -37,7 +37,8 @@ func main() {
 	// log init
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
-	localHost := "http://127.0.0.1"
+	localHostPre := "http://"
+	localHost := fmt.Sprintf("127.0.0.1:%d", Port)
 
 	// Create context that listens for the interrupt signal from the OS.
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
@@ -55,7 +56,6 @@ func main() {
 
 	r.Use(prometheusMiddleware())
 
-	allUrl := make(map[string]string)
 	// ping
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "pong")
@@ -67,13 +67,23 @@ func main() {
 	// system info
 	r.GET("/system", getSystemInfo)
 
-	allUrl["/ping"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/ping")
-	allUrl["/version"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/version")
-	allUrl["/system"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/system")
-	allUrl["/"] = fmt.Sprintf("%s:%d%s", localHost, Port, "/")
 	// home
 	r.GET("/", func(c *gin.Context) {
+		// 获取不到scheme的相关issue: https://github.com/gin-gonic/gin/issues/1233
+		if c.Request.TLS != nil {
+			localHostPre = "https://"
+		}
+		if c.Request.Host != "" {
+			localHost = c.Request.Host
+		}
 		res := make(map[string]map[string]string)
+
+		allUrl := make(map[string]string)
+		allUrl["/ping"] = fmt.Sprintf("%s%s%s", localHostPre, localHost, "/ping")
+		allUrl["/version"] = fmt.Sprintf("%s%s%s", localHostPre, localHost, "/version")
+		allUrl["/system"] = fmt.Sprintf("%s%s%s", localHostPre, localHost, "/system")
+		allUrl["/"] = fmt.Sprintf("%s%s%s", localHostPre, localHost, "/")
+
 		res["all url"] = allUrl
 		c.JSON(http.StatusOK, res)
 	})
@@ -163,9 +173,11 @@ func getMemory(all bool) map[string]any {
 	if all {
 		memMap["all"] = vm
 	} else {
-		u := vm.Total / 1024 / 1024 / 1024
-		memMap["total memory(GB)"] = u
-		memMap["memory usedPercent(%)"] = vm.UsedPercent
+		memMap["Total Memory(MB)"] = vm.Total / 1024 / 1024
+		memMap["Free Memory(MB)"] = vm.Free / 1024 / 1024
+		memMap["Available Memory(MB)"] = vm.Available / 1024 / 1024
+		memMap["Used Memory(MB)"] = vm.Used / 1024 / 1024
+		memMap["Used Percent(%)"] = vm.UsedPercent
 	}
 	return memMap
 }
