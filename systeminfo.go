@@ -88,7 +88,7 @@ func main() {
 		c.JSON(http.StatusOK, res)
 	})
 
-	log.Printf("server listening at %s:%d", localHost, Port)
+	log.Printf("server listening at %s%s", localHostPre, localHost)
 	log.Printf("version: %s", getVersion())
 
 	srv := &http.Server{
