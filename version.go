@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"runtime"
 	"runtime/debug"
 )
@@ -13,28 +13,44 @@ var (
 	// 3. https://github.com/goreleaser/goreleaser/blob/main/main.go
 	version = "dev"
 	commit  = ""
-	date    = ""
+	branch  = ""
+	tagDate = ""
 	builtBy = ""
 )
 
-func getVersion() string {
-	return buildVersion(version, commit, date, builtBy)
+type versionInfo struct {
+	Version     string `json:"version"`
+	Commit      string `json:"commit"`
+	Branch      string `json:"branch"`
+	TagDate     string `json:"tagDate"`
+	BuiltBy     string `json:"builtBy"`
+	Goos        string `json:"goos"`
+	Goarch      string `json:"goarch"`
+	MainVersion string `json:"mainVersion"`
+	MainSum     string `json:"mainSum"`
 }
 
-func buildVersion(version, commit, date, builtBy string) string {
-	result := version
-	if commit != "" {
-		result = fmt.Sprintf("%s\ncommit: %s", result, commit)
+func getVersion() *versionInfo {
+	v := &versionInfo{
+		Version: version,
+		Commit:  commit,
+		Branch:  branch,
+		TagDate: tagDate,
+		BuiltBy: builtBy,
+		Goos:    runtime.GOOS,
+		Goarch:  runtime.GOARCH,
 	}
-	if date != "" {
-		result = fmt.Sprintf("%s\nbuilt at: %s", result, date)
-	}
-	if builtBy != "" {
-		result = fmt.Sprintf("%s\nbuilt by: %s", result, builtBy)
-	}
-	result = fmt.Sprintf("%s\ngoos: %s\ngoarch: %s", result, runtime.GOOS, runtime.GOARCH)
 	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
-		result = fmt.Sprintf("%s\nmodule version: %s, checksum: %s", result, info.Main.Version, info.Main.Sum)
+		v.MainVersion = info.Main.Version
+		v.MainSum = info.Main.Sum
 	}
-	return result
+	return v
+}
+
+func (v *versionInfo) String() string {
+	res, err := json.MarshalIndent(v, "", "  ")
+	if err != nil {
+		return ""
+	}
+	return string(res)
 }

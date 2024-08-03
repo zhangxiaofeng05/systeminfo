@@ -37,6 +37,9 @@ func main() {
 	// log init
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
+	version := getVersion()
+	log.Printf("version: %s", version)
+
 	localHostPre := "http://"
 	localHost := fmt.Sprintf("127.0.0.1:%d", Port)
 
@@ -61,7 +64,7 @@ func main() {
 		c.JSON(http.StatusOK, "pong")
 	})
 	r.GET("/version", func(c *gin.Context) {
-		c.JSON(http.StatusOK, getVersion())
+		c.JSON(http.StatusOK, version)
 	})
 
 	// system info
@@ -89,7 +92,6 @@ func main() {
 	})
 
 	log.Printf("server listening at %s%s", localHostPre, localHost)
-	log.Printf("version: %s", getVersion())
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", Port),
