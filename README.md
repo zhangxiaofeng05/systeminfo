@@ -20,6 +20,7 @@ systeminfo
 call: http://127.0.0.1:8080
 
 ## container
+![Docker Image Version](https://img.shields.io/docker/v/zhangxiaofeng05/systeminfo)
 ### docker
 ```
 docker run -d -p 8080:8080 --name systeminfo zhangxiaofeng05/systeminfo:latest
