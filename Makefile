@@ -1,7 +1,9 @@
 BIN_DIR=./bin
 VERSION := $(shell git describe --tags --always --dirty)
 COMMIT := $(shell git rev-parse HEAD)
-LDFLAGS := -w -s -X main.version=$(VERSION) -X main.commit=$(COMMIT)
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+TAG_DATE := $(shell git show -s --format=%ci) # date中包含空格，引用时需要加单引号
+LDFLAGS := -w -s -X main.version=$(VERSION) -X main.commit=$(COMMIT) -X main.branch=$(BRANCH) -X 'main.tagDate=$(TAG_DATE)'
 
 help: Makefile
 	@echo
@@ -9,10 +11,16 @@ help: Makefile
 	@echo
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 
-## dev: run server
-dev:
+## run: run server
+run:
 	go build -ldflags "$(LDFLAGS)" -o $(BIN_DIR)/systeminfo -v .
 	$(BIN_DIR)/systeminfo
+
+## run_live_reloading: run server with live reloading
+run_live_reloading:
+	# https://github.com/air-verse/air
+	# 嵌套了", 转义引用
+	air --build.cmd "go build -ldflags \"$(LDFLAGS)\" -o $(BIN_DIR)/systeminfo -v ." --build.bin "$(BIN_DIR)/systeminfo"
 
 ## lint: run golangci-lint
 lint:
