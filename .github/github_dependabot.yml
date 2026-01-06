@@ -5,15 +5,18 @@
 
 version: 2
 updates:
-
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      # interval: "weekly"
+      interval: "cron"
+      cronjob: "0 9 1 * *" # 每月 1 号上午 9 点
 
   # Maintain dependencies for gomod
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "weekly"
+      # interval: "weekly"
+      interval: "cron"
+      cronjob: "0 9 1 * *" # 每月 1 号上午 9 点
