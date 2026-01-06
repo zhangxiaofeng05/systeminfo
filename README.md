@@ -1,6 +1,6 @@
 ## system info
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-![ci](https://github.com/zhangxiaofeng05/systeminfo/actions/workflows/ci.yml/badge.svg?branch=main)
+![golangci-lint](https://github.com/zhangxiaofeng05/systeminfo/actions/workflows/golangci-lint.yml/badge.svg?branch=main)
 ![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
 <!-- [![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo) -->
 
