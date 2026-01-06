@@ -11,4 +11,4 @@ updates:
    schedule:
     #  interval: weekly
      interval: "cron"
-      cronjob: "0 9 1 * *" # 每月 1 号上午 9 点
+     cronjob: "0 9 1 * *" # 每月 1 号上午 9 点
