@@ -20,10 +20,15 @@ systeminfo
 call: http://127.0.0.1:8080
 
 ## container
-![Docker Image Version](https://img.shields.io/docker/v/zhangxiaofeng05/systeminfo)
 ### docker
+#### Docker Hub
+![Docker Image Version](https://img.shields.io/docker/v/zhangxiaofeng05/systeminfo)
 ```
 docker run -d -p 8080:8080 --name systeminfo zhangxiaofeng05/systeminfo:latest
+```
+#### GitHub Container Registry
+```
+docker run -d -p 8080:8080 --name ghcr.io/systeminfo zhangxiaofeng05/systeminfo:latest
 ```
 
 Dockerfile reference: https://docs.docker.com/engine/reference/builder/  
