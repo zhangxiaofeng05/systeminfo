@@ -1,7 +1,7 @@
 # github: https://docs.github.com/zh/actions/tutorials/publish-packages/publish-docker-images
 # docker: https://docs.docker.com/build/ci/github-actions/multi-platform/
 
-name: Publish Docker image
+name: Publish Docker image to Docker Hub
 
 on:
   push:
