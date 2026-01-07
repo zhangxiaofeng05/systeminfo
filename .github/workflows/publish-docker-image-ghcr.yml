@@ -44,8 +44,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           # 发布的 package 使用 label 和仓库进行绑定
-          labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          # labels: |
+            # org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
       - name: Build and push Docker image
         id: push
