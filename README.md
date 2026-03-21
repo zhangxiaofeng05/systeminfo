@@ -14,10 +14,27 @@ shasum -a 256 xxx.tar.gz
 ```bash
 # install
 go install github.com/zhangxiaofeng05/systeminfo@latest
-# run
+
+# run (default port 8080)
 systeminfo
+
+# run with custom port
+systeminfo -port 9090
+
+# run with pprof enabled
+systeminfo -pprof
 ```
 call: http://127.0.0.1:8080
+
+## API endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /` | List all available endpoints |
+| `GET /ping` | Health check, returns `"pong"` |
+| `GET /version` | Show current version |
+| `GET /system` | Basic system info (CPU, memory, host, Go runtime) |
+| `GET /system?all=true` | Full system info |
 
 ## container
 ### docker
