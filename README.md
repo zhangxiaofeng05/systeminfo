@@ -4,17 +4,59 @@
 ![license](https://img.shields.io/github/license/zhangxiaofeng05/systeminfo)
 <!-- [![codecov](https://codecov.io/gh/zhangxiaofeng05/systeminfo/branch/main/graph/badge.svg?token=OAQ31EUR2N)](https://codecov.io/gh/zhangxiaofeng05/systeminfo) -->
 
-## release
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/zhangxiaofeng05/systeminfo)
-```
-shasum -a 256 xxx.tar.gz
-```
+## Installation
 
-## go install
+### Binary (recommended)
+
+Download the pre-built binary for your platform from the [GitHub Releases](https://github.com/zhangxiaofeng05/systeminfo/releases) page.
+
 ```bash
-# install
-go install github.com/zhangxiaofeng05/systeminfo@latest
+# Verify checksum after download
+shasum -a 256 systeminfo_*.tar.gz
+# Compare with checksums.txt from the same release
+```
 
+Supported platforms: Linux, macOS, Windows — amd64, arm64, arm, 386, ppc64.
+
+### go install
+
+Requires Go 1.24+.
+
+```bash
+go install github.com/zhangxiaofeng05/systeminfo@latest
+```
+
+### Docker
+
+#### Docker Hub
+![Docker Image Version](https://img.shields.io/docker/v/zhangxiaofeng05/systeminfo)
+```bash
+docker run -d -p 8080:8080 --name systeminfo zhangxiaofeng05/systeminfo:latest
+```
+
+#### GitHub Container Registry
+```bash
+docker run -d -p 8080:8080 --name systeminfo ghcr.io/zhangxiaofeng05/systeminfo:latest
+```
+
+### docker-compose
+
+```bash
+wget https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/docker-compose.yml
+docker-compose up -d
+```
+
+### Kubernetes
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/k8s/deployment.yaml
+```
+
+> Note: the NodePort is 30000.
+
+## Usage
+
+```bash
 # run (default port 8080)
 systeminfo
 
@@ -24,7 +66,8 @@ systeminfo -port 9090
 # run with pprof enabled
 systeminfo -pprof
 ```
-call: http://127.0.0.1:8080
+
+Access: http://127.0.0.1:8080
 
 ## API endpoints
 
@@ -36,32 +79,6 @@ call: http://127.0.0.1:8080
 | `GET /system` | Basic system info (CPU, memory, host, Go runtime) |
 | `GET /system?all=true` | Full system info |
 
-## container
-### docker
-#### Docker Hub
-![Docker Image Version](https://img.shields.io/docker/v/zhangxiaofeng05/systeminfo)
-```
-docker run -d -p 8080:8080 --name systeminfo zhangxiaofeng05/systeminfo:latest
-```
-#### GitHub Container Registry
-```
-docker run -d -p 8080:8080 --name ghcr.io/systeminfo zhangxiaofeng05/systeminfo:latest
-```
-
-Dockerfile reference: https://docs.docker.com/engine/reference/builder/  
-reference: https://studygolang.com/articles/24854
-
-### docker-compose
-```
-wget https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/docker-compose.yml
-
-docker-compose up -d
-```
-### k8s
-```
-kubectl apply -f https://raw.githubusercontent.com/zhangxiaofeng05/systeminfo/main/k8s/deployment.yaml
-```
-`attention`: server port is 30000
 
 ## dependabot
 
