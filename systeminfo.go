@@ -14,15 +14,14 @@ import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/shirou/gopsutil/v4/cpu"
-	"github.com/shirou/gopsutil/v4/host"
-	"github.com/shirou/gopsutil/v4/mem"
 )
 
 var (
 	Port int // server port
 
 	Pprof bool // pprof gin middleware
+
+	sysCache *CachedSystemInfo // system info cache
 )
 
 func init() {
@@ -31,6 +30,9 @@ func init() {
 
 	// parse
 	flag.Parse()
+
+	// initialize system info cache with 5-second TTL
+	sysCache = NewCachedSystemInfo(5 * time.Second)
 }
 
 func main() {
@@ -56,6 +58,8 @@ func main() {
 	// Register the metrics with the Prometheus collector.
 	prometheus.MustRegister(requests)
 	prometheus.MustRegister(requestDuration)
+	// start background cache refresh
+	sysCache.StartBackgroundRefresh()
 
 	r.Use(prometheusMiddleware())
 
@@ -94,8 +98,11 @@ func main() {
 	log.Printf("server listening at %s%s", localHostPre, localHost)
 
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", Port),
-		Handler: r,
+		Addr:         fmt.Sprintf(":%d", Port),
+		Handler:      r,
+		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 15 * time.Second,
+		IdleTimeout:  60 * time.Second,
 	}
 
 	// Initializing the server in a goroutine so that
@@ -166,7 +173,7 @@ func getSystemInfo(c *gin.Context) {
 
 func getMemory(all bool) map[string]any {
 	memMap := make(map[string]any)
-	vm, err := mem.VirtualMemory()
+	vm, err := sysCache.GetMemInfo()
 	if err != nil {
 		log.Printf("get memory info err:%v", err)
 		memMap["error"] = fmt.Errorf("get memory info err:%v", err)
@@ -186,7 +193,7 @@ func getMemory(all bool) map[string]any {
 
 func getCpu(all bool) map[string]any {
 	cpuMap := make(map[string]any)
-	ci, err := cpu.Info()
+	ci, err := sysCache.GetCpuInfo()
 	if err != nil {
 		log.Printf("get cpu info err:%v", err)
 		cpuMap["error"] = fmt.Errorf("get cpu info err:%v", err)
@@ -206,7 +213,7 @@ func getCpu(all bool) map[string]any {
 
 func getHost(all bool) map[string]any {
 	hostMap := make(map[string]any)
-	is, err := host.Info()
+	is, err := sysCache.GetHostInfo()
 	if err != nil {
 		log.Printf("get host info err:%v", err)
 		hostMap["error"] = fmt.Errorf("get host info err:%v", err)
