@@ -60,3 +60,7 @@ docker_stop:
 docker_rm:
 	docker rm systeminfo
 	docker rmi systeminfo
+
+# https://github.com/colbymchenry/codegraph
+codegraph_sync:
+	codegraph sync
